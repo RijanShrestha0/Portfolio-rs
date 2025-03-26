@@ -1,3 +1,20 @@
+// Add body styles
+const bodyStyle = document.createElement('style');
+bodyStyle.textContent = `
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-image: url(Background.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        width: 100vw;
+    }
+`;
+document.head.appendChild(bodyStyle);
+
 const nav = document.createElement('nav');
 nav.style.cssText = `
     display: flex;
