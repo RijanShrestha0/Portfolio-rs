@@ -11,6 +11,7 @@ bodyStyle.textContent = `
         background-repeat: no-repeat;
         height: 100vh;
         width: 100vw;
+        cursor: none;
     }
 `;
 document.head.appendChild(bodyStyle);
@@ -25,14 +26,16 @@ nav.style.cssText = `
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     max-width: 950px;
     margin: 0 auto;
+    cursor: none;
+    pointer-events: auto;
 `;
 
 const logo = document.createElement('div');
-logo.textContent = 'LOGO';
+logo.textContent = 'Rijan';
 logo.style.cssText = `
     font-size: 1.5rem;
     font-weight: bold;
-    color: #f1f1f1;
+    color: #87aee5;
 `;
 
 // Create menu items container
@@ -55,6 +58,8 @@ items.forEach(item => {
         color: #f1f1f1;
         font-weight: 500;
         transition: color 0.3s ease;
+        cursor: none;
+        pointer-events: auto;
     `;
     
     link.addEventListener('mouseover', () => {
@@ -86,6 +91,8 @@ designer_container.style.cssText = `
     gap: 1rem;
     max-width: 950px;
     margin: 0 auto;
+    cursor: default;
+    pointer-events: none;
 `;
 
 // Create centered designer titles div
@@ -95,7 +102,7 @@ designerDiv.style.cssText = `
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 450px;
+    width: 660px;
     text-align: center;
     color:rgb(192, 192, 192);
     gap: 1rem;
@@ -106,6 +113,7 @@ designerDiv.style.cssText = `
 const titlesContainer = document.createElement('div');
 titlesContainer.style.cssText = `
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
@@ -136,14 +144,24 @@ const graphicTitle = document.createElement('h2');
 graphicTitle.textContent = 'Graphic Designer';
 graphicTitle.style.cssText = `
     font-size: 25px;
-    color: rgb(135, 174, 229);
+    color: #87aee5;
     font-weight: 500;
     margin: 0;
 `;
 
-titlesContainer.appendChild(uiuxTitle);
-titlesContainer.appendChild(separator);
-titlesContainer.appendChild(graphicTitle);
+// Create titles wrapper
+const titlesWrapper = document.createElement('div');
+titlesWrapper.style.cssText = `
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+`;
+
+titlesWrapper.appendChild(uiuxTitle);
+titlesWrapper.appendChild(separator);
+titlesWrapper.appendChild(graphicTitle);
+
+titlesContainer.appendChild(titlesWrapper);
 
 const glitchText = document.createElement('div');
 glitchText.style.cssText = `
@@ -166,7 +184,7 @@ glitchText.style.cssText = `
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 50px;
-    margin-left: 15px;
+    margin-left: 120px;
 `;
 
 // Create cursor element
@@ -186,15 +204,14 @@ glitchText.appendChild(cursor);
 
 // Add keyframes for cursor blink animation
 const style = document.createElement('style');
-style.textContent = `
-    @keyframes blink {
+style.textContent = `    @keyframes blink {
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
     }
 `;
 document.head.appendChild(style);
 
-const words = ['Developing', 'Creativity', 'Designing'];
+const words = ['Rijan Shrestha', 'Developing', 'Creativity', 'Designing'];
 let currentWordIndex = 0;
 let currentCharIndex = 0;
 let isDeleting = false;
@@ -285,3 +302,25 @@ designerDiv.appendChild(descriptionsContainer);
 designer_container.appendChild(designerDiv);
 document.body.appendChild(designer_container);
 
+// Create mouse hover effect
+const mouseEffect = document.createElement('div');
+mouseEffect.style.cssText = `
+    position: fixed;
+    width: 15px;
+    height: 15px;
+    background-color: rgb(135, 174, 229);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    opacity: 1;
+    box-shadow: 0 0 20px rgb(135, 174, 229);
+`;
+
+document.body.appendChild(mouseEffect);
+
+// Add mouse move event listener
+document.addEventListener('mousemove', (e) => {
+    mouseEffect.style.left = e.clientX - 5 + 'px';
+    mouseEffect.style.top = e.clientY - 5 + 'px';
+});
