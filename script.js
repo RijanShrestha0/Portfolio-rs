@@ -21,9 +21,9 @@ nav.style.cssText = `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 1rem 4rem;
     background-color:rgba(0, 0, 0, 0.08);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
     max-width: 950px;
     margin: 0 auto;
     cursor: none;
@@ -35,7 +35,7 @@ logo.textContent = 'Rijan';
 logo.style.cssText = `
     font-size: 1.5rem;
     font-weight: bold;
-    color: #87aee5;
+    color:rgb(255, 255, 255);
 `;
 
 // Create menu items container
@@ -267,7 +267,7 @@ descriptionsContainer.style.cssText = `
     width: 100%;
     left: 50%;
     transform: translateX(-50%);
-    margin-bottom: 120px;
+    margin-bottom: 40px;
 `;
 
 // Create description text divs
@@ -298,6 +298,56 @@ descriptionDiv1.textContent = "Turning your dreams into reality.";
 
 descriptionsContainer.appendChild(descriptionDiv);
 descriptionsContainer.appendChild(descriptionDiv1);
+
+// Create button container
+const buttonContainer = document.createElement('div');
+buttonContainer.style.cssText = `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+    pointer-events: none;
+`;
+
+// Create download CV button
+const downloadButton = document.createElement('a');
+downloadButton.href = 'Rijan resume 2.pdf'; // Replace with your actual CV file path
+downloadButton.download = 'Rijan resume 2.pdf';
+downloadButton.textContent = 'Download CV';
+downloadButton.style.cssText = `
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: transparent;
+    border: 2px solid rgb(135, 174, 229);
+    color: rgb(135, 174, 229);
+    font-family: 'Fredoka';
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    cursor: none;
+    pointer-events: auto;
+    position: relative;
+    overflow: hidden;
+`;
+
+// Add hover effect to button
+downloadButton.addEventListener('mouseover', () => {
+    downloadButton.style.backgroundColor = 'rgb(135, 174, 229)';
+    downloadButton.style.color = '#000';
+    downloadButton.style.boxShadow = '0 0 20px rgba(135, 174, 229, 0.5)';
+});
+
+downloadButton.addEventListener('mouseout', () => {
+    downloadButton.style.backgroundColor = 'transparent';
+    downloadButton.style.color = 'rgb(135, 174, 229)';
+    downloadButton.style.boxShadow = 'none';
+});
+
+buttonContainer.appendChild(downloadButton);
+descriptionsContainer.appendChild(buttonContainer);
 designerDiv.appendChild(descriptionsContainer);
 designer_container.appendChild(designerDiv);
 document.body.appendChild(designer_container);
@@ -324,3 +374,4 @@ document.addEventListener('mousemove', (e) => {
     mouseEffect.style.left = e.clientX - 5 + 'px';
     mouseEffect.style.top = e.clientY - 5 + 'px';
 });
+
