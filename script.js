@@ -5,16 +5,72 @@ bodyStyle.textContent = `
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
-        background-image: url(Background.jpg);
+        background-image: url(Background1.webp);
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         height: 100vh;
         width: 100vw;
         cursor: none;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: auto;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.55);
+        z-index: 0;
+        pointer-events: none;
     }
 `;
 document.head.appendChild(bodyStyle);
+
+// Add scroll event listener for horizontal scrolling
+let isScrolling = false;
+let scrollTimeout;
+let lastScrollTime = 0;
+const SCROLL_SPEED = 1;
+const SCROLL_COOLDOWN = 16; // Approximately 60fps
+
+document.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    
+    const currentTime = performance.now();
+    if (currentTime - lastScrollTime < SCROLL_COOLDOWN) return;
+    
+    window.scrollBy({
+        left: e.deltaY * SCROLL_SPEED,
+        behavior: 'auto'
+    });
+    
+    lastScrollTime = currentTime;
+}, { passive: false });
+
+// Add touch scroll support for mobile devices
+document.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    
+    const currentTime = performance.now();
+    if (currentTime - lastScrollTime < SCROLL_COOLDOWN) return;
+    
+    const touch = e.touches[0];
+    const deltaX = touch.movementX || 0;
+    
+    window.scrollBy({
+        left: -deltaX * SCROLL_SPEED,
+        behavior: 'auto'
+    });
+    
+    lastScrollTime = currentTime;
+}, { passive: false });
 
 const nav = document.createElement('nav');
 nav.style.cssText = `
@@ -28,6 +84,11 @@ nav.style.cssText = `
     margin: 0 auto;
     cursor: none;
     pointer-events: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 `;
 
 const logo = document.createElement('div');
@@ -83,7 +144,7 @@ const designer_container = document.createElement('div');
 designer_container.style.cssText = `
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     justify-content: center;
     height: 80vh;
     text-align: center;
@@ -93,6 +154,9 @@ designer_container.style.cssText = `
     margin: 0 auto;
     cursor: default;
     pointer-events: none;
+    position: relative;
+    left: 0;
+    transition: transform 0.3s ease;
 `;
 
 // Create centered designer titles div
@@ -260,7 +324,7 @@ const descriptionsContainer = document.createElement('div');
 descriptionsContainer.style.cssText = `
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
     position: absolute;
     bottom: -150px;
@@ -268,6 +332,7 @@ descriptionsContainer.style.cssText = `
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 40px;
+    padding-left: 240px;
 `;
 
 // Create description text divs
@@ -276,7 +341,7 @@ descriptionDiv.style.cssText = `
     font-family: 'Fredoka';
     font-size: 16px;
     color: rgb(192, 192, 192);
-    text-align: center;
+    text-align: left;
     max-width: 600px;
     line-height: 1.6;
     font-weight: 400;
@@ -287,7 +352,7 @@ descriptionDiv1.style.cssText = `
     font-family: 'Fredoka';
     font-size: 16px;
     color: rgb(192, 192, 192);
-    text-align: center;
+    text-align: left;
     max-width: 600px;
     line-height: 1.6;
     font-weight: 400;
@@ -303,7 +368,7 @@ descriptionsContainer.appendChild(descriptionDiv1);
 const buttonContainer = document.createElement('div');
 buttonContainer.style.cssText = `
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     margin-top: 2rem;
@@ -352,6 +417,56 @@ designerDiv.appendChild(descriptionsContainer);
 designer_container.appendChild(designerDiv);
 document.body.appendChild(designer_container);
 
+// Create Coming Soon section
+const comingSoonContainer = document.createElement('div');
+comingSoonContainer.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 10vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+`;
+
+// Create info text
+const infoText = document.createElement('div');
+infoText.style.cssText = `
+    font-family: 'Fredoka';
+    font-size: 14px;
+    color: rgb(192, 192, 192);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+`;
+
+// Create Coming Soon text
+const comingSoonText = document.createElement('div');
+comingSoonText.style.cssText = `
+    font-family: 'oswald';
+    font-size: 40px;
+    font-weight: 800;
+    color: rgb(213, 213, 213);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    opacity: 0.8;
+`;
+
+infoText.textContent = 'Portfolio • Contact • Projects';
+comingSoonText.textContent = 'Coming Soon';
+
+comingSoonContainer.appendChild(infoText);
+comingSoonContainer.appendChild(comingSoonText);
+document.body.appendChild(comingSoonContainer);
+
 // Create mouse hover effect
 const mouseEffect = document.createElement('div');
 mouseEffect.style.cssText = `
@@ -374,4 +489,3 @@ document.addEventListener('mousemove', (e) => {
     mouseEffect.style.left = e.clientX - 5 + 'px';
     mouseEffect.style.top = e.clientY - 5 + 'px';
 });
-
