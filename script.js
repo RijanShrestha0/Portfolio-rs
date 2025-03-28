@@ -434,6 +434,8 @@ comingSoonContainer.style.cssText = `
     backdrop-filter: blur(5px);
 `;
 
+
+
 // Create info text
 const infoText = document.createElement('div');
 infoText.style.cssText = `
@@ -480,12 +482,47 @@ mouseEffect.style.cssText = `
     transition: transform 0.1s ease;
     opacity: 1;
     box-shadow: 0 0 20px rgb(135, 174, 229);
+    animation: pulse 2s infinite;
 `;
+
+// Add keyframes for cursor pulse animation
+const cursorStyle = document.createElement('style');
+cursorStyle.textContent = `
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 20px rgb(135, 174, 229);
+        }
+        50% {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px rgb(135, 174, 229);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 20px rgb(135, 174, 229);
+        }
+    }
+`;
+document.head.appendChild(cursorStyle);
 
 document.body.appendChild(mouseEffect);
 
 // Add mouse move event listener
+let lastMoveTime = Date.now();
+let isMoving = false;
+
 document.addEventListener('mousemove', (e) => {
     mouseEffect.style.left = e.clientX - 5 + 'px';
     mouseEffect.style.top = e.clientY - 5 + 'px';
+    lastMoveTime = Date.now();
+    isMoving = true;
 });
+
+// Check for idle state
+setInterval(() => {
+    const currentTime = Date.now();
+    if (currentTime - lastMoveTime > 1000 && isMoving) { // 1 second of no movement
+        isMoving = false;
+        mouseEffect.style.animation = 'pulse 2s infinite';
+    }
+}, 100);
