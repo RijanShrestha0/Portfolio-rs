@@ -94,6 +94,7 @@ nav.style.cssText = `
 const logo = document.createElement('div');
 logo.textContent = 'Rijan';
 logo.style.cssText = `
+    font-family: 'oswald';
     font-size: 1.5rem;
     font-weight: bold;
     color:rgb(255, 255, 255);
@@ -526,3 +527,45 @@ setInterval(() => {
         mouseEffect.style.animation = 'pulse 2s infinite';
     }
 }, 100);
+
+// Add responsive styles for mobile devices
+const responsiveStyle = document.createElement('style');
+responsiveStyle.textContent = `
+    @media (max-width: 768px) {
+        body {
+            background-size: cover;
+            background-position: center;
+        }
+
+        nav {
+            padding: 1rem 2rem;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        nav div {
+            text-align: center;
+        }
+
+        nav a {
+            font-size: 14px;
+        }
+
+        #designer_container {
+            padding: 1rem;
+        }
+
+        h1, h2 {
+            font-size: 20px;
+        }
+
+        .glitchText {
+            font-size: 50px;
+        }
+
+        .descriptionDiv {
+            font-size: 14px;
+        }
+    }
+`;
+document.head.appendChild(responsiveStyle);
